@@ -54,9 +54,6 @@ public class NoteListActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +61,10 @@ public class NoteListActivity extends AppCompatActivity
                 startActivity(new Intent(NoteListActivity.this, NoteActivity.class));
             }
         });
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
 
         initializeDisplayContent();
 
@@ -91,7 +92,7 @@ public class NoteListActivity extends AppCompatActivity
     }
 
     private void initializeDisplayContent() {
-
+        DataManager.loadFromDatabase(mDbOpenHelper);
         mRvNoteList = findViewById(R.id.rv_list_notes);
         mNotesLayoutManager = new LinearLayoutManager(this);
         mCoursesLayoutManager = new GridLayoutManager(this,
@@ -110,7 +111,6 @@ public class NoteListActivity extends AppCompatActivity
         mRvNoteList.setLayoutManager(mNotesLayoutManager);
         mRvNoteList.setAdapter(mNoteRecyclerAdapter);
 
-        SQLiteDatabase db = mDbOpenHelper.getReadableDatabase();
         selectNavigationMenuItem(R.id.nav_notes);
     }
 
